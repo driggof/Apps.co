@@ -12,9 +12,10 @@
 #import "DetalleCiudadesViewController.h"
 #import <Parse/Parse.h>
 
-@interface ListaCiudadesTableViewController ()
+@interface ListaCiudadesTableViewController (){
     NSArray *listaDeCiudades;
-    Ciudad * ciudadSeleccionada;
+    Ciudades *ciudadSeleccionada;
+}
 @end
 
 @implementation ListaCiudadesTableViewController
@@ -38,7 +39,7 @@
 }
 
 -(void)recargar{
-    PFQuery *consulta = [PFQuery queryWithClassName:@"Ciudad"];
+    PFQuery *consulta = [PFQuery queryWithClassName:@"ciudades"];
     [consulta findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error) {
         listaDeCiudades = objects;
         [self.tableView reloadData];
@@ -66,7 +67,7 @@
     //configuracion de contenido en la celda
     CiudadesCellTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"celdaIdentifier" forIndexPath:indexPath];
     
-    Ciudad * ciudad = [self convertirDesdeDiccionario:[listaDeCiudades objectAtIndex:indexPath.row]];
+    Ciudades * ciudad = [self convertirDesdeDiccionario:[listaDeCiudades objectAtIndex:indexPath.row]];
     
     cell.nombre.text = ciudad.nombre;
     cell.foto.layer.cornerRadius = 44.0f;
@@ -74,15 +75,15 @@
     return cell;
 }
 
--(Ciudad *)convertirDesdeDiccionario:(PFObject *) dictionary{
-    Ciudad * ciudad = [[Ciudad alloc] init];
+-(Ciudades *)convertirDesdeDiccionario:(PFObject *) dictionary{
+    Ciudades * ciudad = [[Ciudades alloc] init];
     ciudad.nombre = [dictionary objectForKey:@"nombre"];
     ciudad.fotoUrl = [NSURL URLWithString:[dictionary objectForKey:@"foto"]];
     return ciudad;
 }
 
 -(void) tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
-    ciudadSeleccionada = [[Ciudad alloc] init];
+    ciudadSeleccionada = [[Ciudades alloc] init];
     ciudadSeleccionada = [self convertirDesdeDiccionario:[listaDeCiudades objectAtIndex:indexPath.row]];
     [self performSegueWithIdentifier:@"detallesCiudadSegue" sender:self];
 }

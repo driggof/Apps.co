@@ -7,9 +7,10 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "Ciudades.h"
 
 @interface DetalleCiudadesViewController : UIViewController
 @property (weak, nonatomic) IBOutlet UIImageView *foto;
-@property (weak, nonatomic)  Ciudad *player;
+@property (weak, nonatomic)  Ciudades *player;
 
 @end
